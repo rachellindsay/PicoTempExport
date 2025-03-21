@@ -1,3 +1,4 @@
+# this docker-compose file just runs Prometheus and creates the docker network prom_net
 services:
   prometheus:
     image: quay.io/prometheus/prometheus:v2.45.0

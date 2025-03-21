@@ -1,0 +1,5 @@
+# configuration file for custom exporter to scrape metrics - since it will run on the same Raspberry Pi as the Prometheus service, you can use the container name (picotempexport-v1:3030) to obtain the metrics
+---
+- labels:
+    job: picotempexport
+  targets: ["picotempexport-v1:3030"]

@@ -7,20 +7,35 @@ Pico should be connected with BOOTSEL button pressed to be in file transfer mode
 - copy to pico 
     `cp main.uf2 /media/rachel/RPI-RP2`
 
-- run tinygo monitor to get the listening address which will be something like http://192.168.0.152:80
+- run tinygo monitor to get the listening address(this is the PICO_SERVER_URL required to run the exporter below) which will be something like http://192.168.0.152:80
 
 ## Start Prometheus
 Navigate to picotempexport directory
     `docker compose up`
 
-## Build picotempexport
+## Build and run picotempexport
+- build the exporter image from the dockerfile
     `docker build -t picotempexport:v1 .`
 
-- when it's finished building:
+- when it's finished building, run the image (setting the environment variable PICO_SERVER_URL to the url you get when running tinygo monitor and exposing port 3030 for external connection). once running, open http://localhost:3030 (or http://rachelpi:3030 if ssh).
+
     `docker run -d \
     --name picotempexport-v1 \
     -p 3030:3030 \
     --env PICO_SERVER_URL=http://192.168.0.152 \
-    --net=picotempexport_prom_net \
-    picotempexport:v1`
+    --net=exporter_prom_net \
+    picotempexport:v1` 
     
+- copy custom exporter config to exporter container
+    `docker cp sd_picotempexporter.yml exporter-prometheus-1:/prometheus`
+
+
+
+debug:
+run docker image with a shell running in it
+
+`docker run -it [name of image] /bin/sh`
+
+pwd 
+ls
+ls -l (long - shows more info including permissions and file size)

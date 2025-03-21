@@ -17,7 +17,8 @@ I build the code that runs on the pico-w on the pi, and then load the compiled c
 1. Install tinygo on the pi: https://tinygo.org/
 2. Setup the cyw43439 driver. This is the go driver that allows the pico-w to connect to wifi. Need this separate package because it is not included in tinygo pico support. cyw43439 is the wifi chip on the pico-w:
     - clone the repo from https://github.com/soypat/cyw43439 creating a directory cyw43439 at the same level as picoserver and exporter
-    - follow the instructions in cyw43439/examples/common/secrets.go.template to create cyw43439/examples/common/secrets.go with wifi credentials
+    - new process (as of 3/20/25): Create ssid.text and password.text files in the examples/common directory. Write your SSID into ssid.text and WiFi password into password.text. Do not add final newlines to the files. If the password is empty then an open network is assumed.
+    - old process (there is no longer a secrets.go.template): follow the instructions in cyw43439/examples/common/secrets.go.template to create cyw43439/examples/common/secrets.go with wifi credentials
 3. Build the main.uf2 compiled code (in the picoserver directory): `tinygo build -target=pico -o main.uf2 .`
 4. Transfering code to the pico:
     - Connect the pico to the pi with the BOOTSEL button pressed. This puts the pico in file transfer mode (it will show up on the pi as mounted USB drive). The book claims it will show up as /mnt/RPI-RP2, but I found RPI-RP2 in /media/rachel. 
